@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", methods = RequestMethod.POST)
-@RequestMapping("/file")
+//@RequestMapping("/file")
 @RequiredArgsConstructor
 public class S3ApiController {
 
