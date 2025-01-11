@@ -25,18 +25,14 @@ jobs:
       - name: Build
         run: ./gradlew clean build
 
-      # 4) 테스트
-      - name: Test
-        run: ./gradlew test
-
-      # 5) Docker 이미지 빌드 및 푸시 (선택)
+      # 5) Docker 이미지 빌드 및 푸시
       - name: Build and push Docker image
         run: |
           docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/aws-s3:latest .
           docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/aws-s3:latest
 
-      # 6) 서버에 SSH 접속해 배포 (선택)
+      # 6) 서버에 SSH 접속해 배포
       - name: Deploy to server
         uses: appleboy/ssh-action@v0.1.8
         with:
