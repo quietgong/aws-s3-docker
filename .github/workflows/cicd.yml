@@ -28,9 +28,9 @@ jobs:
       # 5) Docker 이미지 빌드 및 푸시
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/aws-s3:latest .
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.PROJECT_NAME }}:latest .
           docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/aws-s3:latest
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.PROJECT_NAME }}:latest
 
       # 6) 서버에 SSH 접속해 배포
       - name: Deploy to server
@@ -40,7 +40,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/aws-s3:latest
-            docker stop aws-s3 || true
-            docker rm aws-s3 || true
-            docker run -d -p 5000:8080 -e ${{ secrets.AWS_ACCESS_KEY }} -e ${{ secrets.AWS_SECRET_KEY }} --name aws-s3 ${{ secrets.DOCKER_HUB_USERNAME }}/aws-s3:latest
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.PROJECT_NAME }}:latest
+            docker stop ${{ secrets.PROJECT_NAME }} || true
+            docker rm ${{ secrets.PROJECT_NAME }} || true
+            docker run -d -p 5000:8080 -e AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} -e AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} --name ${{ secrets.PROJECT_NAME }} ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.PROJECT_NAME }}:latest
