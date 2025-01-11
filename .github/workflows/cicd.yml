@@ -43,4 +43,4 @@ jobs:
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/aws-s3:latest
             docker stop aws-s3 || true
             docker rm aws-s3 || true
-            docker run -d -p 8080:8080 --name aws-s3 ${{ secrets.DOCKER_HUB_USERNAME }}/aws-s3:latest
+            docker run -d -p 5000:8080 -e ${{ secrets.AWS_ACCESS_KEY }} -e ${{ secrets.AWS_SECRET_KEY }} --name aws-s3 ${{ secrets.DOCKER_HUB_USERNAME }}/aws-s3:latest
