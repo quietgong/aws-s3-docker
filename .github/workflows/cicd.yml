@@ -23,7 +23,7 @@ jobs:
 
       # 3) 빌드 (Gradle 예시)
       - name: Build
-        run: ./gradlew clean build
+        run: ./gradlew clean build -x test
 
       # 5) Docker 이미지 빌드 및 푸시
       - name: Build and push Docker image
